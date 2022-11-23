@@ -23,7 +23,7 @@ class Folder extends StatefulWidget {
 
 class _FolderState extends State<Folder> {
   List file = [];
-  List videolist = [];
+  List<String> videolist = [];
 
   late String directory;
   @override
@@ -39,50 +39,51 @@ class _FolderState extends State<Folder> {
         title: Text("Folder Info"),
         actions: [],
       ),
-      body: Column(children: <Widget>[
-        FloatingActionButton(
-          onPressed: (() async {
-            final Directory rootPath = await getTemporaryDirectory();
-            String? path1 = await FilesystemPicker.open(
-              title: 'pick folder',
-              context: context,
-              rootDirectory: rootPath,
-              fsType: FilesystemType.all,
-              allowedExtensions: ['.png', '.jpg', '.jpeg', '.mpeg-4', '.mp4'],
-              fileTileSelectMode: FileTileSelectMode.wholeTile,
-              requestPermission: () async =>
-                  await Permission.storage.request().isGranted,
-            );
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            FloatingActionButton(
+              onPressed: (() async {
+                final Directory rootPath = Directory("/");
+                String? path1 = await FilesystemPicker.open(
+                  title: 'pick folder',
+                  context: context,
+                  rootDirectory: rootPath,
+                  fsType: FilesystemType.folder,
+                  requestPermission: () async =>
+                      await Permission.storage.request().isGranted,
+                );
 
-            directory = path1 ?? " ";
-            setState(() {
-              file = io.Directory("$directory/").listSync();
-            });
+                directory = path1 ?? " ";
+                setState(() {
+                  file = io.Directory("$directory/").listSync();
+                  print(file);
+                });
 
-            for (String a in file) {
-              final extension = p.extension(a);
-              if (extension == '.png' ||
-                  extension == '.jpg' ||
-                  extension == ".jpeg") {
-                file.add(a);
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => imagePage(
-                        text: widget.text,
-                        text1: widget.text1,
-                        color3: widget.color1,
-                        imagelist: file)));
-              } else {
-                videolist.add(a);
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: ((context) => Home(
-                          videolist: videolist,
-                        ))));
-              }
-            }
-          }),
-          child: Icon(Icons.folder),
-        ),
-      ]),
+                for (String a in file) {
+                  final extension = p.extension(a);
+                  if (extension == '.png' ||
+                      extension == '.jpg' ||
+                      extension == ".jpeg") {
+                    file.add(a);
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => imagePage(
+                            text: widget.text,
+                            text1: widget.text1,
+                            color3: widget.color1,
+                            imagelist: file)));
+                  } else {
+                    videolist.add(a);
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: ((context) => Home(
+                              videolist: videolist,
+                            ))));
+                  }
+                }
+              }),
+              child: Icon(Icons.folder),
+            ),
+          ]),
     );
   }
 }

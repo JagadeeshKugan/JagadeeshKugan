@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import "package:better_player/better_player.dart";
@@ -7,37 +8,40 @@ import 'package:flutter/services.dart';
 
 class Home extends StatefulWidget {
   const Home({required this.videolist, super.key});
-  final List videolist;
+  final List<String> videolist;
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  late BetterPlayerController _betterPlayerController;
-  late BetterPlayerPlaylistConfiguration _betterPlayerPlaylistConfiguration;
-  List b = [];
-  List<BetterPlayerDataSource> v = [];
+  final GlobalKey<BetterPlayerPlaylistState> _betterPlayerPlaylistStateKey =
+      GlobalKey();
+
+  List<String> b = [];
+  List<BetterPlayerDataSource> videoPlayerDataSource = [];
 
   createDataSet() {
-    for (var xpath in widget.videolist) {
-      v.add(
+    log(widget.videolist.toString());
+    for (String xpath in widget.videolist) {
+      videoPlayerDataSource.add(
         BetterPlayerDataSource(BetterPlayerDataSourceType.file, xpath),
       );
     }
 
-    return v;
+    log(videoPlayerDataSource.toString());
+    setState(() {});
   }
 
   List<String> ac = [];
   Future<void> setList() async {
+    await getList();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     for (var xfile in widget.videolist) {
       b.add(xfile);
     }
-    await getList();
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setStringList('a', ac);
+    prefs.setStringList('a', b);
   }
 
   Future<void> getList() async {
@@ -51,18 +55,10 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     setList();
+
     super.initState();
     getList();
     createDataSet();
-    crec();
-    playlist();
-  }
-
-  playlist() {
-    return BetterPlayerPlaylistConfiguration(
-      loopVideos: false,
-      nextVideoDelay: Duration(milliseconds: 500),
-    );
   }
 
   crec() {
@@ -109,119 +105,63 @@ class _HomeState extends State<Home> {
           icon: Icon(Icons.arrow_back),
         ),
       ),
-      body: Container(
-        child: Row(
-          children: [
-            BetterPlayerPlaylist(
-                betterPlayerDataSourceList: v,
-                betterPlayerConfiguration: crec(),
-                betterPlayerPlaylistConfiguration:
-                    _betterPlayerPlaylistConfiguration),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    InkWell(
-                      onTap: () async {
-                        Duration? videoDuration = await _betterPlayerController
-                            .videoPlayerController!.position;
-                        setState(() {
-                          if (_betterPlayerController.isPlaying()!) {
-                            Duration rewindDuration = Duration(
-                                seconds: (videoDuration!.inSeconds - 2));
-                            if (rewindDuration <
-                                _betterPlayerController
-                                    .videoPlayerController!.value.duration!) {
-                              _betterPlayerController
-                                  .seekTo(Duration(seconds: 0));
-                            } else {
-                              _betterPlayerController.seekTo(rewindDuration);
-                            }
-                          }
-                        });
-                      },
-                      child: Icon(
-                        Icons.fast_rewind,
-                        color: Colors.white,
-                      ),
+      body: Column(
+        children: [
+          (videoPlayerDataSource.length > 0)
+              ? Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width - 30,
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: BetterPlayerPlaylist(
+                        key: _betterPlayerPlaylistStateKey,
+                        betterPlayerConfiguration: BetterPlayerConfiguration(),
+                        betterPlayerPlaylistConfiguration:
+                            const BetterPlayerPlaylistConfiguration(),
+                        betterPlayerDataSourceList: videoPlayerDataSource),
+                  ))
+              : Text("No Video Selected"),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () async {
+                      setState(() {});
+                    },
+                    child: Icon(
+                      Icons.fast_rewind,
+                      color: Colors.white,
                     ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          if (_betterPlayerController.isPlaying()!)
-                            _betterPlayerController.pause();
-                          else
-                            _betterPlayerController.play();
-                        });
-                      },
-                      child: Icon(
-                        _betterPlayerController.isPlaying()!
-                            ? Icons.pause
-                            : Icons.play_arrow,
-                        color: Colors.white,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () async {
-                        Duration? videoDuration = await _betterPlayerController
-                            .videoPlayerController!.position;
-                        setState(() {
-                          if (_betterPlayerController.isPlaying()!) {
-                            Duration forwardDuration = Duration(
-                                seconds: (videoDuration!.inSeconds + 5));
-                            if (forwardDuration >
-                                _betterPlayerController
-                                    .videoPlayerController!.value.duration!) {
-                              _betterPlayerController
-                                  .seekTo(Duration(seconds: 0));
-                              _betterPlayerController.pause();
-                            } else {
-                              _betterPlayerController.seekTo(forwardDuration);
-                            }
-                          }
-                        });
-                      },
-                      child: Icon(
-                        Icons.fast_forward,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            InkWell(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.purple.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    _betterPlayerController.isFullScreen
-                        ? Icons.fullscreen_exit
-                        : Icons.fullscreen,
-                    color: Colors.white,
-                    size: 28,
                   ),
-                ),
+                ],
               ),
-              onTap: () => setState(() {
-                if (!_betterPlayerController.isFullScreen) {
-                  _betterPlayerController.enterFullScreen();
-                } else {
-                  _betterPlayerController.exitFullScreen();
-                }
-              }),
-            ),
-          ],
-        ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () async {
+                      setState(() {});
+                    },
+                    child: Icon(
+                      Icons.fast_rewind,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
+
+  BetterPlayerPlaylistController? get _betterPlayerPlaylistController =>
+      _betterPlayerPlaylistStateKey
+          .currentState!.betterPlayerPlaylistController;
 }

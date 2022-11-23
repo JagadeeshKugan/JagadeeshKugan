@@ -36,8 +36,8 @@ class _PickImageVideoState extends State<PickImageVideo> {
 
 //Selecting multiple images from Gallery
   List imageFileList = [];
-  List videolist = [];
-  List a = [];
+  List<String> videolist = [];
+  List<String> a = [];
   crec() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.getStringList("a") ?? [];
@@ -45,7 +45,7 @@ class _PickImageVideoState extends State<PickImageVideo> {
       a.add(xfile.path);
     }
 
-    await prefs.setStringList('a', a as dynamic);
+    await prefs.setStringList('a', a);
   }
 
   void selectImages() async {
@@ -54,7 +54,7 @@ class _PickImageVideoState extends State<PickImageVideo> {
       imageFileList.addAll(selectedImages);
     }
     setState(() {});
-    await crec();
+    crec();
 
     Navigator.push(
         context,

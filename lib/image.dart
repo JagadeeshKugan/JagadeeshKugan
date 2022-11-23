@@ -44,6 +44,7 @@ class _imagePageState extends State<imagePage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     paths = prefs.getStringList('a') ?? [];
+    print(paths);
   }
 
   Future<void> setstring() async {
@@ -53,7 +54,7 @@ class _imagePageState extends State<imagePage> {
 
   Future<void> getstring() async {
     final SharedPreferences prefs1 = await SharedPreferences.getInstance();
-    k = prefs1.getString('s')!;
+    k = prefs1.getString('s') ?? " ";
   }
 
   /* Future<void> getList() async {
@@ -65,8 +66,8 @@ class _imagePageState extends State<imagePage> {
     }
   }*/
 
-  List ac = [];
-  List videolist = [];
+  List<String> ac = [];
+  List<String> videolist = [];
   Future<void> getList1() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     ac = prefs.getStringList("a") ?? [];
@@ -167,7 +168,7 @@ class _imagePageState extends State<imagePage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => RouteTwo(
-                              galleryItems: widget.imagelist,
+                              galleryItems: paths,
                             ),
                           ),
                         );
@@ -255,8 +256,8 @@ class _RouteTwoState extends State<RouteTwo> {
         builder: (BuildContext context, int index) {
           return PhotoViewGalleryPageOptions(
             imageProvider: kIsWeb
-                ? NetworkImage(widget.galleryItems[index].path)
-                : FileImage(File(widget.galleryItems[index].path)) as dynamic,
+                ? NetworkImage(widget.galleryItems[index])
+                : FileImage(File(widget.galleryItems[index])) as dynamic,
             initialScale: PhotoViewComputedScale.contained * 1,
           );
         },
