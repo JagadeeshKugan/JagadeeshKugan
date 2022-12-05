@@ -50,13 +50,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.3+2"
-  cross_file_image:
-    dependency: "direct main"
-    description:
-      name: cross_file_image
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   csslib:
     dependency: transitive
     description:
@@ -99,13 +92,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
-  filesystem_picker:
-    dependency: "direct main"
-    description:
-      name: filesystem_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.0"
   flutter:
     dependency: "direct main"
     description: flutter

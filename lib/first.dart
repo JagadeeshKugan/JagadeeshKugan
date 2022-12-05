@@ -1,9 +1,9 @@
 import 'package:app1/newfold.dart';
 import "package:flutter/gestures.dart";
 import 'dart:ui';
-import 'folder.dart';
+
 import 'package:path_provider/path_provider.dart';
-import 'package:filesystem_picker/filesystem_picker.dart';
+
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -230,15 +230,19 @@ class _ScreenState extends State<Screen> {
                     new GestureDetector(
                       onTap: () async {
                         var status = await Permission.storage.request();
-
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => fold(
-                                      color1: color,
-                                      text1: int.parse(intervals.text),
-                                      text: text1,
-                                    )));
+                        if (status.isGranted) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => fold(
+                                        color1: color,
+                                        text1: int.parse(intervals.text),
+                                        text: text1,
+                                      )));
+                        } else {
+                          Permission.storage.request();
+                          setState(() {});
+                        }
                       },
                       child: Container(
                         height: 35,

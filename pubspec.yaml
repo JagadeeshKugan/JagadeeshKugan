@@ -40,10 +40,8 @@ dependencies:
   better_player: ^0.0.83
   permission_handler: ^10.2.0
   flutter_colorpicker: ^1.0.3
-  filesystem_picker: ^3.1.0
   photo_view: ^0.14.0
   file_manager: ^1.0.1
-  cross_file_image: ^1.0.0
   shared_preferences: ^2.0.15
 
 dev_dependencies:
