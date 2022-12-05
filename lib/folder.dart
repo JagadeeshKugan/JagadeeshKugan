@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io' as io;
 import 'dart:io';
 import 'package:app1/home.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Folder extends StatefulWidget {
   final Color color1;
@@ -32,6 +34,12 @@ class _FolderState extends State<Folder> {
     super.initState();
   }
 
+  Future<void> setstring() async {
+    String k = widget.text;
+    final SharedPreferences pre = await SharedPreferences.getInstance();
+    pre.setString("s", k);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,43 +49,44 @@ class _FolderState extends State<Folder> {
       ),
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             FloatingActionButton(
               onPressed: (() async {
-                final Directory rootPath = Directory("/");
+                final Directory rootPath = await getTemporaryDirectory();
                 String? path1 = await FilesystemPicker.open(
                   title: 'pick folder',
                   context: context,
                   rootDirectory: rootPath,
-                  fsType: FilesystemType.folder,
+                  fsType: FilesystemType.all,
                   requestPermission: () async =>
                       await Permission.storage.request().isGranted,
                 );
-
-                directory = path1 ?? " ";
+                print(path1);
+                directory = path1 ?? "";
                 setState(() {
                   file = io.Directory("$directory/").listSync();
-                  print(file);
+                  log(file.toString());
                 });
 
-                for (String a in file) {
-                  final extension = p.extension(a);
+                for (var a in file) {
+                  final extension = p.extension(a.toString());
                   if (extension == '.png' ||
                       extension == '.jpg' ||
                       extension == ".jpeg") {
                     file.add(a);
+                    print(file);
+                    setstring();
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => imagePage(
                             text: widget.text,
                             text1: widget.text1,
                             color3: widget.color1,
                             imagelist: file)));
-                  } else {
-                    videolist.add(a);
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: ((context) => Home(
-                              videolist: videolist,
-                            ))));
+                  } else if (extension == ".mp4") {
+                    videolist.add(a.toString());
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: ((context) => Home())));
                   }
                 }
               }),

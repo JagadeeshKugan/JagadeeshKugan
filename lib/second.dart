@@ -1,3 +1,5 @@
+import 'dart:developer';
+import 'dart:ffi';
 import 'package:app1/image.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -34,20 +36,41 @@ class _PickImageVideoState extends State<PickImageVideo> {
     imagePicker = new ImagePicker();
   }
 
-//Selecting multiple images from Gallery
-  List imageFileList = [];
-  List<String> videolist = [];
-  List<String> a = [];
-  crec() async {
+  //set prefs for videos
+  Future<void> setList() async {
+    List<String> b = [];
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.getStringList("a") ?? [];
-    for (var xfile in imageFileList) {
-      a.add(xfile.path);
+    b = prefs.getStringList("a") ?? [];
+    for (var xfile in videolist) {
+      b.add(xfile);
     }
+    b.toSet().toString();
 
-    await prefs.setStringList('a', a);
+    prefs.setStringList('a', b);
   }
 
+  //set desc in prefs
+  Future<void> setstring() async {
+    String k = widget.text;
+    final SharedPreferences pre = await SharedPreferences.getInstance();
+    pre.setString("s", k);
+  }
+
+  //Set images list in pref
+  List imageFileList = [];
+  List<String> videolist = [];
+
+  crec() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var temp = prefs.getStringList("b") ?? [];
+    for (var xfile in imageFileList) {
+      temp.add(xfile.path);
+    }
+    log("temp" + temp.toString());
+    prefs.setStringList('b', temp);
+  }
+
+  //select multiple images
   void selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages!.isNotEmpty) {
@@ -55,30 +78,28 @@ class _PickImageVideoState extends State<PickImageVideo> {
     }
     setState(() {});
     crec();
-
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (builder) => imagePage(
                   color3: widget.color1 as Color,
-                  imagelist: a,
+                  imagelist: [],
                   text: widget.text,
                   text1: widget.time,
                 )));
   }
 
+  // picking video
   void pickVideoFromGallery() async {
     XFile _video = await imagePicker.pickVideo(source: ImageSource.gallery);
     setState(() {
       videolist.add(_video.path);
     });
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (builder) => Home(
-                  videolist: videolist,
-                )));
+    setList();
+
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (builder) => Home()));
   }
 
   //
@@ -111,7 +132,7 @@ class _PickImageVideoState extends State<PickImageVideo> {
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     MaterialButton(
@@ -120,7 +141,7 @@ class _PickImageVideoState extends State<PickImageVideo> {
                       onPressed: () {
                         pickVideoFromGallery();
                       },
-                      child: Text("Select video from Gallery"),
+                      child: Text("Select video "),
                     ),
                     MaterialButton(
                       minWidth: 100,

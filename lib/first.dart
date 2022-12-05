@@ -1,3 +1,4 @@
+import 'package:app1/newfold.dart';
 import "package:flutter/gestures.dart";
 import 'dart:ui';
 import 'folder.dart';
@@ -22,26 +23,6 @@ class _ScreenState extends State<Screen> {
   TextEditingController textController = TextEditingController();
   TextEditingController intervals = TextEditingController();
   Color color = Colors.white;
-
-  final ValueNotifier<String?> selectedPath = ValueNotifier(null);
-  void _pickFile(BuildContext context) async {
-    selectedPath.value = null;
-
-    final Directory rootPath = await getTemporaryDirectory();
-
-    debugPrint('Root path: ${rootPath.absolute.path}');
-
-    String? path = await FilesystemPicker.open(
-      title: 'Open file',
-      context: context,
-      rootDirectory: rootPath,
-      fsType: FilesystemType.all,
-      requestPermission: () async =>
-          await Permission.storage.request().isGranted,
-    );
-
-    selectedPath.value = path;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +174,7 @@ class _ScreenState extends State<Screen> {
                     ),
                     new GestureDetector(
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PickImageVideo(
@@ -247,15 +228,16 @@ class _ScreenState extends State<Screen> {
                     ),
                     // ignore: unnecessary_new
                     new GestureDetector(
-                      onTap: () {
-                        _pickFile(context);
-                        Navigator.push(
+                      onTap: () async {
+                        var status = await Permission.storage.request();
+
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Folder(
+                                builder: (context) => fold(
+                                      color1: color,
                                       text1: int.parse(intervals.text),
                                       text: text1,
-                                      color1: color,
                                     )));
                       },
                       child: Container(

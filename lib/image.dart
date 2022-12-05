@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:app1/home.dart';
 
@@ -36,35 +37,21 @@ class _imagePageState extends State<imagePage> {
     for (var a in widget.imagelist) {
       paths.add(a);
     }
-
     setState(() {});
   }
 
-  Future<void> setList() async {
+  Future<void> getList() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    paths = prefs.getStringList('a') ?? [];
-    print(paths);
-  }
-
-  Future<void> setstring() async {
-    final SharedPreferences prefs1 = await SharedPreferences.getInstance();
-    prefs1.setString('s', k);
+    paths = prefs.getStringList('b') ?? [];
+    log("paths " + paths.toString());
+    setState(() {});
   }
 
   Future<void> getstring() async {
     final SharedPreferences prefs1 = await SharedPreferences.getInstance();
     k = prefs1.getString('s') ?? " ";
   }
-
-  /* Future<void> getList() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    a = prefs.getStringList('a') ?? [];
-    print(a);
-    for (var b in a) {
-      paths.add((b));
-    }
-  }*/
 
   List<String> ac = [];
   List<String> videolist = [];
@@ -102,9 +89,8 @@ class _imagePageState extends State<imagePage> {
   }
 
   void initState() {
-    setlistsimage();
-    setList();
-    setstring();
+    //setlistsimage();
+    getList();
 
     // getList();
     getstring();
@@ -194,19 +180,18 @@ class _imagePageState extends State<imagePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Description : " + k,
+                        "Description : " + widget.text,
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                      Text("Images:" + widget.imagelist.length.toString(),
+                      Text("Images:" + paths.length.toString(),
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       FloatingActionButton(
                           onPressed: (() {
                             getList1();
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: ((context) =>
-                                    Home(videolist: videolist))));
+                                builder: ((context) => Home())));
                           }),
                           child: Icon(
                             Icons.play_arrow,
