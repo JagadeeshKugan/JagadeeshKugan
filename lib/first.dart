@@ -230,6 +230,7 @@ class _ScreenState extends State<Screen> {
                     new GestureDetector(
                       onTap: () async {
                         var status = await Permission.storage.request();
+
                         if (status.isGranted) {
                           Navigator.pushReplacement(
                               context,
