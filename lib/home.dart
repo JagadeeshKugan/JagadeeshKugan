@@ -9,7 +9,8 @@ import "package:better_player/better_player.dart";
 import 'package:flutter/services.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final List video;
+  const Home({required this.video, super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -89,15 +90,9 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              " Home",
+              " Videos",
               style: TextStyle(fontSize: 20),
             ),
-            IconButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => Screen()));
-                },
-                icon: Icon(Icons.add))
           ],
         ),
         leading: IconButton(

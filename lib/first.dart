@@ -3,7 +3,7 @@ import "package:flutter/gestures.dart";
 import 'dart:ui';
 
 import 'package:path_provider/path_provider.dart';
-
+import 'package:permission_handler_platform_interface/permission_handler_platform_interface.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -11,7 +11,8 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import './second.dart';
 
 class Screen extends StatefulWidget {
-  const Screen({super.key});
+  final int id;
+  const Screen({required this.id, super.key});
 
   @override
   State<Screen> createState() => _ScreenState();
@@ -90,7 +91,7 @@ class _ScreenState extends State<Screen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      "Interval (seconds)",
+                      "Interval",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
@@ -178,7 +179,8 @@ class _ScreenState extends State<Screen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PickImageVideo(
-                                      color1: color,
+                                      id: widget.id,
+                                      color1: color.value,
                                       time: int.parse(intervals.text),
                                       text: text1,
                                     )));

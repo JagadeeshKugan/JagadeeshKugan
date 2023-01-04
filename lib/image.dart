@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'dart:io';
 import 'package:app1/home.dart';
 
@@ -13,15 +14,18 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class imagePage extends StatefulWidget {
-  final String text;
-  final List imagelist;
+  final String text; //desc
+  final List imagelist; //imglist
+
   final int text1;
-  final Color color3;
+  final int color3;
+  final int id;
   const imagePage(
       {required this.text,
       required this.text1,
       required this.color3,
       required this.imagelist,
+      required this.id,
       super.key});
 
   @override
@@ -29,8 +33,6 @@ class imagePage extends StatefulWidget {
 }
 
 class _imagePageState extends State<imagePage> {
-  List<String> a = [];
-  late String k = widget.text;
   List<String> paths = [];
 
   void setlistsimage() {
@@ -38,22 +40,10 @@ class _imagePageState extends State<imagePage> {
       paths.add(a);
     }
     setState(() {});
+    print(paths);
   }
 
-  Future<void> getList() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    paths = prefs.getStringList('b') ?? [];
-    log("paths " + paths.toString());
-    setState(() {});
-  }
-
-  Future<void> getstring() async {
-    final SharedPreferences prefs1 = await SharedPreferences.getInstance();
-    k = prefs1.getString('s') ?? " ";
-  }
-
-  List<String> ac = [];
+  /*List<String> ac = [];
   List<String> videolist = [];
   Future<void> getList1() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -61,39 +51,13 @@ class _imagePageState extends State<imagePage> {
     for (var b in ac) {
       videolist.add(b);
     }
-  }
-
-  Future<bool> showExitPopup() async {
-    return await showDialog(
-          //show confirm dialogue
-          //the return value will be from "Yes" or "No" options
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Exit App'),
-            content: Text('Do you want to exit an App?'),
-            actions: [
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                //return false when click on "NO"
-                child: Text('No'),
-              ),
-              ElevatedButton(
-                onPressed: () => exit(0),
-                //return true when click on "Yes"
-                child: Text('Yes'),
-              ),
-            ],
-          ),
-        ) ??
-        false; //if showDialouge had returned null, then return false
-  }
+  }*/
 
   void initState() {
-    //setlistsimage();
-    getList();
+    setlistsimage();
 
     // getList();
-    getstring();
+
     super.initState();
   }
 
@@ -101,7 +65,7 @@ class _imagePageState extends State<imagePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(" Home"),
+        title: Text(" Image Page"),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -109,6 +73,7 @@ class _imagePageState extends State<imagePage> {
                 {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: ((context) => PickImageVideo(
+                            id: widget.id,
                             color1: widget.color3,
                             text: widget.text,
                             time: widget.text1,
@@ -118,26 +83,31 @@ class _imagePageState extends State<imagePage> {
               icon: Icon(Icons.add)),
           IconButton(
               onPressed: (() {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: ((context) => Screen())));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: ((context) => Screen(
+                          id: widget.id,
+                        ))));
               }),
               icon: Icon(Icons.settings))
         ],
         leading: IconButton(
             onPressed: (() {
-              showExitPopup();
+              Navigator.of(context).pop();
             }),
             icon: Icon(Icons.arrow_back_ios)),
       ),
       body: Container(
-        color: widget.color3,
+        color: Color(widget.color3),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
+                height: MediaQuery.of(context).size.height * .90,
+                width: MediaQuery.of(context).size.width,
                 child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisSpacing: 0,
@@ -164,7 +134,7 @@ class _imagePageState extends State<imagePage> {
                             ? Image.network(paths[index])
                             : Image.file(File(paths[index])) as dynamic,
                         decoration: BoxDecoration(
-                          color: widget.color3,
+                          color: Color(widget.color3),
                         ),
                       ),
                     );
@@ -172,34 +142,8 @@ class _imagePageState extends State<imagePage> {
                 ),
               ),
               Container(
-                height: 40,
-                width: MediaQuery.of(context).size.width,
-                color: Colors.white24,
-                child: Stack(alignment: Alignment.bottomCenter, children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Description : " + widget.text,
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      Text("Images:" + paths.length.toString(),
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
-                      FloatingActionButton(
-                          onPressed: (() {
-                            getList1();
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: ((context) => Home())));
-                          }),
-                          child: Icon(
-                            Icons.play_arrow,
-                            color: Colors.black,
-                          ))
-                    ],
-                  ),
-                ]),
+                height: 30,
+                child: Text("Description :" + widget.text),
               )
             ],
           ),

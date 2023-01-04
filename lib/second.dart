@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:ffi';
 import 'package:app1/image.dart';
+import 'package:app1/page.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
@@ -10,11 +12,12 @@ import 'package:app1/home.dart';
 
 class PickImageVideo extends StatefulWidget {
   final String text;
-  final Color color1;
-
+  final int color1;
+  final int id;
   final int time;
   const PickImageVideo(
       {super.key,
+      required this.id,
       required this.color1,
       required this.time,
       required this.text});
@@ -32,22 +35,23 @@ class _PickImageVideoState extends State<PickImageVideo> {
   @override
   void initState() {
     super.initState();
-    Color color2 = widget.color1;
+
     imagePicker = new ImagePicker();
   }
 
   //set prefs for videos
-  Future<void> setList() async {
+  /*Future<void> setList() async {
     List<String> b = [];
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     b = prefs.getStringList("a") ?? [];
     for (var xfile in videolist) {
       b.add(xfile);
     }
+
     b.toSet().toString();
 
     prefs.setStringList('a', b);
-  }
+  }*/
 
   //set desc in prefs
   Future<void> setstring() async {
@@ -60,15 +64,84 @@ class _PickImageVideoState extends State<PickImageVideo> {
   List imageFileList = [];
   List<String> videolist = [];
 
-  crec() async {
+  //set map
+  seter() async {
+    int id = widget.id;
+    int color = widget.color1;
+    List temp1 = [];
+    List temp2 = [];
+    List<String> map = [];
+    //map
+    final SharedPreferences preff = await SharedPreferences.getInstance();
+    map = preff.getStringList("encode") ?? [];
+
+    for (var xfile in videolist) {
+      temp2.add(xfile);
+    }
+
+    //image list
+    for (var xfile in imageFileList) {
+      temp1.add(xfile.path);
+    }
+
+    List<Map<String, dynamic>> main = [];
+    if (map.isNotEmpty) {
+      map.forEach((element) {
+        main.add(jsonDecode(element));
+      });
+    }
+
+    if (id < main.length || id == 0) {
+      int i = main.length + 1;
+      Map<String, dynamic> mac = {
+        "id": i,
+        "desc": widget.text,
+        "imagelist": temp1,
+        "videolist": temp2,
+        "cross": widget.time,
+        "color": color
+      };
+      main.add(mac);
+    } else if (id != 0) {
+      var mape = main.firstWhere((item) => item["id"] == id);
+      if (mape != null) {
+        mape["imagelist"] += temp1;
+        mape["videolist"] = mape["videolist"] + temp2;
+      }
+      main
+          .firstWhere((element) => element["id"] == id)
+          .update("desc", (value) => widget.text);
+      main
+          .firstWhere((element) => element["id"] == id)
+          .update("cross", (value) => widget.time);
+      main
+          .firstWhere((element) => element["id"] == id)
+          .update("color", (value) => color);
+      main
+          .firstWhere((element) => element["id"] == id)
+          .update("imagelist", (value) => mape["imagelist"]);
+      main
+          .firstWhere((element) => element["id"] == id)
+          .update("videolist", (value) => mape["videolist"]);
+    }
+
+    main.forEach((element) {
+      map.add(jsonEncode(element));
+    });
+
+    preff.setStringList("encode", map);
+  }
+
+  //shared imag list
+  /* crec() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var temp = prefs.getStringList("b") ?? [];
     for (var xfile in imageFileList) {
       temp.add(xfile.path);
     }
-    log("temp" + temp.toString());
+
     prefs.setStringList('b', temp);
-  }
+  }*/
 
   //select multiple images
   void selectImages() async {
@@ -77,16 +150,9 @@ class _PickImageVideoState extends State<PickImageVideo> {
       imageFileList.addAll(selectedImages);
     }
     setState(() {});
-    crec();
+    seter();
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (builder) => imagePage(
-                  color3: widget.color1 as Color,
-                  imagelist: [],
-                  text: widget.text,
-                  text1: widget.time,
-                )));
+        context, MaterialPageRoute(builder: (builder) => Pager()));
   }
 
   // picking video
@@ -96,10 +162,10 @@ class _PickImageVideoState extends State<PickImageVideo> {
       videolist.add(_video.path);
     });
 
-    setList();
+    seter();
 
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (builder) => Home()));
+        context, MaterialPageRoute(builder: (builder) => Pager()));
   }
 
   //
@@ -123,7 +189,7 @@ class _PickImageVideoState extends State<PickImageVideo> {
         title: Text("Second screen"),
       ),
       body: Container(
-        color: widget.color1,
+        color: Color(widget.color1),
         child: Center(
           child: Column(
             children: <Widget>[

@@ -1,5 +1,6 @@
 import 'package:app1/first.dart';
 import 'package:app1/image.dart';
+import 'package:app1/page.dart';
 
 import 'package:flutter/material.dart';
 
@@ -30,12 +31,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       // ignore: prefer_const_constructors
-      home: imagePage(
-        text1: 10,
-        text: " ",
-        imagelist: [],
-        color3: Colors.white10,
-      ),
+      home: Pager(),
     );
   }
 }

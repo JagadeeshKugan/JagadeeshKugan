@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:app1/page.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
@@ -134,14 +135,9 @@ class _foldState extends State<fold> {
                           crec1();
                           setList();
                           log("its a file" + afile.toString());
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(
-                                  builder: (context) => imagePage(
-                                        text1: widget.text1,
-                                        text: " ",
-                                        imagelist: [],
-                                        color3: Colors.white10,
-                                      )));
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: ((context) => Pager())));
                         },
                         onTap: () async {
                           if (FileManager.isDirectory(entity)) {
