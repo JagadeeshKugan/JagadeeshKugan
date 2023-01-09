@@ -1,4 +1,4 @@
-package com.appwidgetflutter
+package com.example.app1
 import com.package.name"."R
 import android.appwidget.AppWidgetManager
 import android.content.Context
