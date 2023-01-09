@@ -27,7 +27,7 @@ class _ScreenState extends State<Screen> {
 
   @override
   Widget build(BuildContext context) {
-    String text1 = textController.text;
+    ;
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
@@ -182,7 +182,7 @@ class _ScreenState extends State<Screen> {
                                       id: widget.id,
                                       color1: color.value,
                                       time: int.parse(intervals.text),
-                                      text: text1,
+                                      text: textController.text,
                                     )));
                       },
                       child: Container(
@@ -240,7 +240,8 @@ class _ScreenState extends State<Screen> {
                                   builder: (context) => fold(
                                         color1: color,
                                         text1: int.parse(intervals.text),
-                                        text: text1,
+                                        text: textController.text,
+                                        id: widget.id,
                                       )));
                         } else {
                           Permission.storage.request();

@@ -34,11 +34,8 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
-  List<String> ac = [];
-
   Future<void> getList() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    ac = prefs.getStringList("a") ?? [];
+    List ac = widget.video;
     for (var b in ac) {
       videolist.add(b);
     }
@@ -51,9 +48,6 @@ class _HomeState extends State<Home> {
   }
 
   initStateFn() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    videolist = prefs.getStringList("a") ?? [];
-    log("init " + videolist.toString());
     getList();
     createDataSet();
   }

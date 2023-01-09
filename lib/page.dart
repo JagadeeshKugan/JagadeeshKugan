@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:app1/first.dart';
 import 'package:app1/home.dart';
 import 'package:app1/image.dart';
@@ -53,7 +52,7 @@ class _PagerState extends State<Pager> {
       });
     }
     main2.addAll(main);
-    print(main2);
+
     setState(() {});
   }
 
@@ -110,6 +109,7 @@ class _PagerState extends State<Pager> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
+        color: Colors.black,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
@@ -127,7 +127,9 @@ class _PagerState extends State<Pager> {
                             onLongPress: () {
                               int id1 = main2[index]["id"];
                               List video = main2[index]["videolist"];
-                              funcwidget(id1, video);
+                              print(video);
+                              List images = main2[index]["imagelist"];
+                              funcwidget(id1, video, images);
                             },
                             onTap: () {
                               Navigator.push(
@@ -149,7 +151,7 @@ class _PagerState extends State<Pager> {
                               // : Image.file(File(paths[index])) as dynamic,
                               decoration: BoxDecoration(
                                   border:
-                                      Border.all(width: 2, color: Colors.black),
+                                      Border.all(width: 2, color: Colors.white),
                                   color: Color(int.parse(
                                       main2[index]["color"].toString())),
                                   borderRadius:
@@ -161,15 +163,12 @@ class _PagerState extends State<Pager> {
                                       height: 100,
                                       width: MediaQuery.of(context).size.width *
                                           .75,
-                                      child: main2[index]["imagelist"] != null
+                                      child: main2[index]["imagelist"].length !=
+                                              0
                                           ? Image.file(
                                               File(
                                                   main2[index]["imagelist"][0]),
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  .90,
-                                              fit: BoxFit.cover,
+                                              fit: BoxFit.fill,
                                             )
                                           : Icon(Icons.image),
                                     ),
@@ -180,13 +179,34 @@ class _PagerState extends State<Pager> {
                                   SizedBox(
                                       height: 20,
                                       child: Center(
-                                          child: Text(
-                                        "Description:"
-                                        '${main2[index]["desc"]}',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold),
-                                      )))
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text(
+                                              "Description:"
+                                              '${main2[index]["desc"]}',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              "Images:"
+                                              '${main2[index]["imagelist"].length}',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              "Videos:"
+                                              '${main2[index]["videolist"].length}',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          ],
+                                        ),
+                                      ))
                                 ],
                               ),
                             ),
@@ -195,7 +215,13 @@ class _PagerState extends State<Pager> {
                       ),
                     )
                   : Container(
-                      height: 200,
+                      height: MediaQuery.of(context).size.height * 0.95,
+                      color: Colors.black,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage("assets/imag.jpg"),
+                            fit: BoxFit.fill),
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -204,7 +230,9 @@ class _PagerState extends State<Pager> {
                             child: Text(
                               "Add New Widget ",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: Colors.white),
                             ),
                           ),
                         ],
@@ -219,7 +247,10 @@ class _PagerState extends State<Pager> {
                               id: 0,
                             ))));
                   },
-                  child: Icon(Icons.add),
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
                 ),
               )
             ],
@@ -229,7 +260,8 @@ class _PagerState extends State<Pager> {
     );
   }
 
-  funcwidget(int idd, List videos) async {
+  funcwidget(int idd, List videos, List images) async {
+    print("VOd" + videos.toString());
     return await showDialog(
         context: context,
         builder: ((context) => Dialog(
@@ -237,41 +269,48 @@ class _PagerState extends State<Pager> {
                 height: 100,
                 width: 100,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
-                      color: Colors.grey,
-                      child: Row(
-                        children: [
-                          IconButton(onPressed: () {}, icon: Icon(Icons.add)),
-                          IconButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: ((context) => Screen(
-                                          id: idd,
-                                        ))));
-                              },
-                              icon: Icon(Icons.settings)),
-                          IconButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        RouteTwo(galleryItems: main2)));
-                              },
-                              icon: Icon(Icons.square_sharp)),
-                          IconButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => Home(video: videos)));
-                              },
-                              icon: Icon(Icons.youtube_searched_for)),
-                        ],
+                    Center(
+                      child: Container(
+                        color: Colors.grey,
+                        width: MediaQuery.of(context).size.width - 150,
+                        child: Row(
+                          children: [
+                            IconButton(onPressed: () {}, icon: Icon(Icons.add)),
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: ((context) => Screen(
+                                            id: idd,
+                                          ))));
+                                },
+                                icon: Icon(Icons.settings)),
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          RouteTwo(galleryItems: images)));
+                                },
+                                icon: Icon(Icons.explore)),
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          Home(video: videos)));
+                                },
+                                icon: Icon(Icons.play_circle)),
+                          ],
+                        ),
                       ),
                     ),
-                    IconButton(
-                        hoverColor: Colors.blueAccent,
-                        onPressed: () => Navigator.pop(context),
-                        icon: Icon(Icons.arrow_back_ios_rounded))
+                    Container(
+                      color: Colors.amber,
+                      child: IconButton(
+                          hoverColor: Colors.blueAccent,
+                          onPressed: () => Navigator.pop(context),
+                          icon: Icon(Icons.arrow_back_ios_rounded)),
+                    )
                   ],
                 ),
               ),

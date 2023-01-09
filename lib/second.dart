@@ -6,6 +6,7 @@ import 'package:app1/page.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:app1/home.dart';
@@ -67,6 +68,7 @@ class _PickImageVideoState extends State<PickImageVideo> {
   //set map
   seter() async {
     int id = widget.id;
+    print(id);
     int color = widget.color1;
     List temp1 = [];
     List temp2 = [];
@@ -90,8 +92,9 @@ class _PickImageVideoState extends State<PickImageVideo> {
         main.add(jsonDecode(element));
       });
     }
+    print("main iin sec" + main.toString());
 
-    if (id < main.length || id == 0) {
+    if (id == 0) {
       int i = main.length + 1;
       Map<String, dynamic> mac = {
         "id": i,
@@ -124,12 +127,13 @@ class _PickImageVideoState extends State<PickImageVideo> {
           .firstWhere((element) => element["id"] == id)
           .update("videolist", (value) => mape["videolist"]);
     }
-
+    print("mainerrrr" + main.toString());
+    List<String> map1 = [];
     main.forEach((element) {
-      map.add(jsonEncode(element));
+      map1.add(jsonEncode(element));
     });
 
-    preff.setStringList("encode", map);
+    preff.setStringList("encode", map1);
   }
 
   //shared imag list

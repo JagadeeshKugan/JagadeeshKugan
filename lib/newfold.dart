@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:app1/page.dart';
@@ -14,8 +15,10 @@ class fold extends StatefulWidget {
   final String text;
   final int text1;
   final Color color1;
+  final int id;
   const fold(
       {required this.text,
+      required this.id,
       required this.text1,
       required this.color1,
       super.key});
@@ -33,27 +36,75 @@ class _foldState extends State<fold> {
   var isSelected = -1;
 
   //set video list
-  Future<void> setList() async {
-    List<String> b = [];
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    b = prefs.getStringList("a") ?? [];
-    for (var xfile in videolist) {
-      b.add(xfile);
-    }
-    b.toSet().toString();
 
-    prefs.setStringList('a', b);
-  }
-
-  //set images list
   crec1() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var temp = prefs.getStringList("b") ?? [];
-    for (var xfile in afile) {
-      temp.add(xfile);
+    int id = widget.id;
+    print(id);
+    int color = widget.color1.value;
+    List temp1 = [];
+    List temp2 = [];
+    List<String> map = [];
+    //map
+    final SharedPreferences preff = await SharedPreferences.getInstance();
+    map = preff.getStringList("encode") ?? [];
+
+    for (var xfile in videolist) {
+      temp2.add(xfile);
     }
-    log("temp" + temp.toString());
-    prefs.setStringList('b', temp);
+
+    //image list
+    for (var xfile in afile) {
+      temp1.add(xfile);
+    }
+
+    List<Map<String, dynamic>> main = [];
+    if (map.isNotEmpty) {
+      map.forEach((element) {
+        main.add(jsonDecode(element));
+      });
+    }
+    print("main iin sec" + main.toString());
+
+    if (id == 0) {
+      int i = main.length + 1;
+      Map<String, dynamic> mac = {
+        "id": i,
+        "desc": widget.text,
+        "imagelist": temp1,
+        "videolist": temp2,
+        "cross": widget.text1,
+        "color": color
+      };
+      main.add(mac);
+    } else if (id != 0) {
+      var mape = main.firstWhere((item) => item["id"] == id);
+      if (mape != null) {
+        mape["imagelist"] += temp1;
+        mape["videolist"] = mape["videolist"] + temp2;
+      }
+      main
+          .firstWhere((element) => element["id"] == id)
+          .update("desc", (value) => widget.text);
+      main
+          .firstWhere((element) => element["id"] == id)
+          .update("cross", (value) => widget.text1);
+      main
+          .firstWhere((element) => element["id"] == id)
+          .update("color", (value) => color);
+      main
+          .firstWhere((element) => element["id"] == id)
+          .update("imagelist", (value) => mape["imagelist"]);
+      main
+          .firstWhere((element) => element["id"] == id)
+          .update("videolist", (value) => mape["videolist"]);
+    }
+    print("mainerrrr" + main.toString());
+    List<String> map1 = [];
+    main.forEach((element) {
+      map1.add(jsonEncode(element));
+    });
+
+    preff.setStringList("encode", map1);
   }
 
   @override
@@ -111,7 +162,7 @@ class _foldState extends State<fold> {
                           List<FileSystemEntity> file = [];
 
                           directory = entity.path;
-                          print(directory);
+
                           /*print(controller.getCurrentPath +
                               "/" +
                               FileManager.basename(entity));*/
@@ -120,7 +171,7 @@ class _foldState extends State<fold> {
                             file = io.Directory("$directory/")
                                 .listSync(recursive: true, followLinks: false);
                           });
-                          log("file " + file.toString());
+
                           for (FileSystemEntity a in file) {
                             final extension = p.extension(a.path);
 
@@ -133,8 +184,7 @@ class _foldState extends State<fold> {
                             }
                           }
                           crec1();
-                          setList();
-                          log("its a file" + afile.toString());
+
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                   builder: ((context) => Pager())));

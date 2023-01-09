@@ -98,17 +98,17 @@ class _imagePageState extends State<imagePage> {
       ),
       body: Container(
         color: Color(widget.color3),
-        height: MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height * 0.90,
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * .90,
-                width: MediaQuery.of(context).size.width,
-                child: GridView.builder(
+          child: Container(
+            height: MediaQuery.of(context).size.height * .90,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisSpacing: 0,
                     mainAxisSpacing: 0,
@@ -140,12 +140,27 @@ class _imagePageState extends State<imagePage> {
                     );
                   },
                 ),
-              ),
-              Container(
-                height: 30,
-                child: Text("Description :" + widget.text),
-              )
-            ],
+                Container(
+                  color: Colors.white,
+                  height: 100,
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    children: [
+                      Text(
+                        "Description:" + widget.text,
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "No. of images:" + widget.imagelist.length.toString(),
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
