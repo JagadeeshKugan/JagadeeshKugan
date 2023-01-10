@@ -1,5 +1,5 @@
 package com.example.app1
-import com.package.name"."R
+
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.SharedPreferences
@@ -22,6 +22,7 @@ class AppWidgetProvider : HomeWidgetProvider() {
                 val counter = widgetData.getInt("_counter", 0)
 
                 var counterText = "Your counter value is: $counter"
+                 
 
                 if (counter == 0) {
                     counterText = "You have not pressed the counter button"
