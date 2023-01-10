@@ -20,8 +20,10 @@ class AppWidgetProvider : HomeWidgetProvider() {
                 setOnClickPendingIntent(R.id.widget_root, pendingIntent)
 
                 val counter = widgetData.getInt("_counter", 0)
+                
 
                 var counterText = "Your counter value is: $counter"
+                
                  
 
                 if (counter == 0) {
@@ -36,6 +38,34 @@ class AppWidgetProvider : HomeWidgetProvider() {
                 setOnClickPendingIntent(R.id.bt_update, backgroundIntent)
             }
             appWidgetManager.updateAppWidget(widgetId, views)
+        }
+    }
+}
+
+class MainActivity : AppCompatActivity() {
+
+    var sampleImages = intArrayOf(
+        R.drawable.img1,
+        R.drawable.img2,
+        R.drawable.img3,
+        R.drawable.img4,
+       
+    )
+  
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val carouselView = findViewById(R.id.carouselView) as CarouselView;
+        carouselView.setPageCount(sampleImages.size);
+        carouselView.setImageListener(imageListener);
+    }
+
+
+    var imageListener: ImageListener = object : ImageListener {
+        override fun setImageForPosition(position: Int, imageView: ImageView) {
+            // You can use Glide or Picasso here
+            imageView.setImageResource(sampleImages[position])
         }
     }
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app1/page.dart';
 import 'package:home_widget/home_widget.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +8,8 @@ void main() {
   runApp(MyApp());
 }
 
-/*class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatelessWidget {
+  MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -32,8 +34,16 @@ void main() {
       home: Pager(),
     );
   }
-}*/
-Future<void> backgroundCallback(Uri uri) async {
+
+  List count = [];
+
+  crec() {
+    HomeWidget.saveWidgetData("_counter", jsonEncode(count));
+  }
+}
+
+
+/*Future<void> backgroundCallback(Uri uri) async {
   if (uri.host == 'updatecounter') {
     int _counter = 0;
     await HomeWidget.getWidgetData<int>('_counter', defaultValue: 0)
@@ -133,4 +143,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-}
+}*/
