@@ -25,7 +25,7 @@
     app:showBottomShadow="true"
     app:bottomShadowAlpha="0.6"
     app:showCaption="true"
-    app:showIndicator="true"
+    app:showIndicator="false"
     //app:showNavigationButtons="true"
     app:imageScaleType="fitCenter"
     app:carouselBackground="#333333"
@@ -40,7 +40,7 @@
     //app:nextButtonMargin="4dp"
     app:carouselType="BLOCK"
     app:scaleOnScroll="false"
-    app:scalingFactor="0.15"
+    
     app:autoWidthFixing="true"
     app:autoPlay="true"
     app:autoPlayDelay="3000" /> 
