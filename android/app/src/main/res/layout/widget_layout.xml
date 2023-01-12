@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:background="#1f303d"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >-->
+        >
         
 
     <org.imaginativeworld.whynotimagecarousel.ImageCarousel
@@ -43,9 +43,17 @@
     
     app:autoWidthFixing="true"
     app:autoPlay="true"
-    app:autoPlayDelay="3000" /> 
+    app:autoPlayDelay="3000" /> -->
         
         
+
+    <com.denzcoskun.imageslider.ImageSlider
+        android:id="@+id/image_slider"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:iss_auto_cycle="true"
+        app:iss_period="1000"
+        app:iss_delay="0"/>    
     <!--</RelativeLayout>-->
 
 </FrameLayout>

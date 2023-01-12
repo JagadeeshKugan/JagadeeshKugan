@@ -10,32 +10,19 @@ import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetProvider
 
 class AppWidgetProvider : HomeWidgetProvider() {
-    val carousel: ImageCarousel = findViewById(R.id.carousel)
+    val imageList = ArrayList<SlideModel>() // Create image list
 
-val list = mutableListOf<CarouselItem>()
+// imageList.add(SlideModel("String Url" or R.drawable)
+// imageList.add(SlideModel("String Url" or R.drawable, "title") You can add title
 
-list.add(
-    CarouselItem(
-        imageUrl = "https://images.unsplash.com/photo-1532581291347-9c39cf10a73c?w=1080",
-        caption = "Photo by Aaron Wu on Unsplash"
-    )
-)
-list.add(
-    CarouselItem(
-        imageUrl = "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1080",
-        caption = "Photo by Johannes Plenio on Unsplash"
-    )
-)
-// ...
-
-carousel.addData(list)
-
-carousel.onItemClickListener = object : OnItemClickListener {
-    override fun onClick(position: Int, carouselItem: CarouselItem) {
-        carousel.next() // ...
-
-    }
-
+imageList.add(SlideModel("https://bit.ly/2YoJ77H", "The animal population decreased by 58 percent in 42 years."))
+imageList.add(SlideModel("https://bit.ly/2BteuF2", "Elephants and tigers may become extinct."))
+imageList.add(SlideModel("https://bit.ly/3fLJf72", "And people do that."))
+imageList.add(SlideModel(R.drawable.img2,"good"))
+imageList.add(SlideModel(R.drawable.img3,"good1"))
+imageList.add(SlideModel(R.drawable.img4,"good2"))
+val imageSlider = findViewById<ImageSlider>(R.id.image_slider)
+imageSlider.setImageList(imageList, ScaleTypes.FIT)
    
 
 }
