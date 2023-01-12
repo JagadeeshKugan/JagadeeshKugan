@@ -15,14 +15,35 @@
         >-->
         
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#000000"
-        android:gravity="center"
-        android:padding="32dp"
-        android:src="@drawable/img1"/> 
+    <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+    android:id="@+id/carousel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    app:showTopShadow="false"
+    //app:topShadowAlpha="0.6"
+    app:showBottomShadow="true"
+    app:bottomShadowAlpha="0.6"
+    app:showCaption="true"
+    app:showIndicator="true"
+    //app:showNavigationButtons="true"
+    app:imageScaleType="fitCenter"
+    app:carouselBackground="#333333"
+    app:imagePlaceholder="@drawable/img2"
+    app:itemLayout="@layout/item_carousel"
+    app:imageViewId="@id/img"
+    //app:previousButtonLayout="@layout/previous_button_layout"
+    //app:previousButtonId="@id/btn_previous"
+    //app:previousButtonMargin="4dp"
+    //app:nextButtonLayout="@layout/next_button_layout"
+    //app:nextButtonId="@id/btn_next"
+    //app:nextButtonMargin="4dp"
+    app:carouselType="BLOCK"
+    app:scaleOnScroll="false"
+    app:scalingFactor="0.15"
+    app:autoWidthFixing="true"
+    app:autoPlay="true"
+    app:autoPlayDelay="3000" /> 
         
         
     <!--</RelativeLayout>-->

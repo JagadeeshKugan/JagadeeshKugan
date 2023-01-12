@@ -216,7 +216,7 @@ class _PagerState extends State<Pager> {
                     )
                   : Container(
                       height: MediaQuery.of(context).size.height * 0.95,
-                      color: Colors.black,
+                      // color: Colors.black,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage("assets/imag.jpg"),
@@ -235,24 +235,24 @@ class _PagerState extends State<Pager> {
                                   color: Colors.white),
                             ),
                           ),
+                          Container(
+                            child: FloatingActionButton(
+                              hoverColor: Colors.blue,
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: ((context) => Screen(
+                                          id: 0,
+                                        ))));
+                              },
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
-              Container(
-                child: FloatingActionButton(
-                  hoverColor: Colors.blue,
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: ((context) => Screen(
-                              id: 0,
-                            ))));
-                  },
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                ),
-              )
             ],
           ),
         ),

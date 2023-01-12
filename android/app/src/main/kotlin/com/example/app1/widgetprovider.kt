@@ -1,4 +1,4 @@
-/*package com.example.app1
+package com.example.app1
 
 import android.appwidget.AppWidgetManager
 import android.content.Context
@@ -10,7 +10,38 @@ import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetProvider
 
 class AppWidgetProvider : HomeWidgetProvider() {
-    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray, widgetData: SharedPreferences) {
+    val carousel: ImageCarousel = findViewById(R.id.carousel)
+
+val list = mutableListOf<CarouselItem>()
+
+list.add(
+    CarouselItem(
+        imageUrl = "https://images.unsplash.com/photo-1532581291347-9c39cf10a73c?w=1080",
+        caption = "Photo by Aaron Wu on Unsplash"
+    )
+)
+list.add(
+    CarouselItem(
+        imageUrl = "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1080",
+        caption = "Photo by Johannes Plenio on Unsplash"
+    )
+)
+// ...
+
+carousel.addData(list)
+
+carousel.onItemClickListener = object : OnItemClickListener {
+    override fun onClick(position: Int, carouselItem: CarouselItem) {
+        carousel.next() // ...
+
+    }
+
+   
+
+}
+
+
+   /* override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray, widgetData: SharedPreferences) {
         appWidgetIds.forEach { widgetId ->
             val views = RemoteViews(context.packageName, R.layout.widget_layout).apply {
 
@@ -39,6 +70,6 @@ class AppWidgetProvider : HomeWidgetProvider() {
             }
             appWidgetManager.updateAppWidget(widgetId, views)
         }
-    }
+    }*/
 }
-*/
+

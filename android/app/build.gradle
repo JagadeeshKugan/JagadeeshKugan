@@ -29,7 +29,7 @@ android {
     
     compileSdkVersion 33
     ndkVersion flutter.ndkVersion
-     buildToolsVersion "20.0.0"
+    buildToolsVersion "20.0.0"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -70,6 +70,11 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-   
+    implementation 'com.google.android.material:material:1.1.0'
+    
+    // Optional: Circle Indicator (To fix the xml preview "Missing classes" error)
+    implementation 'me.relex:circleindicator:2.1.4'
+
+    implementation 'com.github.ImaginativeShohag:Why-Not-Image-Carousel:v1.0.0'
 
 }

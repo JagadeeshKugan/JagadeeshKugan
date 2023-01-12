@@ -111,12 +111,17 @@ class _PickImageVideoState extends State<PickImageVideo> {
         mape["imagelist"] += temp1;
         mape["videolist"] = mape["videolist"] + temp2;
       }
-      main
-          .firstWhere((element) => element["id"] == id)
-          .update("desc", (value) => widget.text);
-      main
-          .firstWhere((element) => element["id"] == id)
-          .update("cross", (value) => widget.time);
+      if (widget.text != null) {
+        main
+            .firstWhere((element) => element["id"] == id)
+            .update("desc", (value) => widget.text);
+      }
+      if (widget.time != null) {
+        main
+            .firstWhere((element) => element["id"] == id)
+            .update("cross", (value) => widget.time);
+      }
+
       main
           .firstWhere((element) => element["id"] == id)
           .update("color", (value) => color);
@@ -127,7 +132,7 @@ class _PickImageVideoState extends State<PickImageVideo> {
           .firstWhere((element) => element["id"] == id)
           .update("videolist", (value) => mape["videolist"]);
     }
-    print("mainerrrr" + main.toString());
+
     List<String> map1 = [];
     main.forEach((element) {
       map1.add(jsonEncode(element));
