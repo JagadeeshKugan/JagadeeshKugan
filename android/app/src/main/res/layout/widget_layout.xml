@@ -7,11 +7,12 @@
     
     >
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#1f303d"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >-->
         
 
     <ImageView
@@ -21,10 +22,9 @@
         android:background="#000000"
         android:gravity="center"
         android:padding="32dp"
-        
         android:src="@drawable/img1"/> 
         
         
-    </RelativeLayout>
+    <!--</RelativeLayout>-->
 
 </FrameLayout>
