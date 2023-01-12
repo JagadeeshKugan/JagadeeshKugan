@@ -4,8 +4,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="200dp"
     android:layout_height="200dp"
-    
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.app1.widgetprovider"
+    tools:showIn="@layout/activity_main"
     >
+    <com.synnapps.carouselview.CarouselView
+        android:id="@+id/carouselView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:fillColor="#FFFFFFFF"
+        app:pageColor="#00000000"
+        app:radius="6dp"
+        app:slideInterval="3000"
+        app:strokeColor="#FF777777"
+        app:strokeWidth="1dp"/>
 
     <!--<RelativeLayout
         android:layout_width="match_parent"
@@ -43,7 +55,7 @@
     
     app:autoWidthFixing="true"
     app:autoPlay="true"
-    app:autoPlayDelay="3000" /> -->
+    app:autoPlayDelay="3000" /> 
         
         
 
@@ -52,10 +64,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:iss_auto_cycle="true"
-        app:error_image="@color/voilet"
+        app:error_image="#ffaacc"
         app:iss_period="1000"
         app:iss_title_background="@android:color/holo_red_light"
-        app:iss_delay="0"/>    
+        app:iss_delay="0"/>    -->
     <!--</RelativeLayout>-->
+
+
 
 </FrameLayout>
