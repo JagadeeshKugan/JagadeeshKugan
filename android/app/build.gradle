@@ -53,6 +53,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+         multiDexEnabled true
     }
 
     buildTypes {
@@ -71,7 +72,7 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.google.android.material:material:1.1.0'
-    
+    implementation 'com.android.support:multidex:2.0.1'
     implementation 'me.relex:circleindicator:2.1.6'
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
 }

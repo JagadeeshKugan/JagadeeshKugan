@@ -52,7 +52,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:iss_auto_cycle="true"
+        app:error_image="@color/voilet"
         app:iss_period="1000"
+        app:iss_title_background="@android:color/holo_red_light"
         app:iss_delay="0"/>    
     <!--</RelativeLayout>-->
 

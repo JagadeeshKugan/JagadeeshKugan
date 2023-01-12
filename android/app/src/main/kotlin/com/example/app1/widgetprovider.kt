@@ -21,6 +21,7 @@ imageList.add(SlideModel("https://bit.ly/3fLJf72", "And people do that."))
 imageList.add(SlideModel(R.drawable.img2,"good"))
 imageList.add(SlideModel(R.drawable.img3,"good1"))
 imageList.add(SlideModel(R.drawable.img4,"good2"))
+
 val imageSlider = findViewById<ImageSlider>(R.id.image_slider)
 imageSlider.setImageList(imageList, ScaleTypes.FIT)
    
