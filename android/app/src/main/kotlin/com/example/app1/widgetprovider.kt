@@ -11,7 +11,7 @@ import es.antonborri.home_widget.HomeWidgetProvider
 
 class AppWidgetProvider : HomeWidgetProvider() {
     var sampleImages = intArrayOf(
-        R.drawable.img1,
+       
         R.drawable.img2,
         R.drawable.img3,
         R.drawable.img4,
@@ -20,13 +20,13 @@ class AppWidgetProvider : HomeWidgetProvider() {
   
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.widget_layout)
 
         val carouselView = findViewById(R.id.carouselView) as CarouselView;
         carouselView.setPageCount(sampleImages.size);
         carouselView.setImageListener(imageListener);
     }
-
+    
 
     var imageListener: ImageListener = object : ImageListener {
         override fun setImageForPosition(position: Int, imageView: ImageView) {

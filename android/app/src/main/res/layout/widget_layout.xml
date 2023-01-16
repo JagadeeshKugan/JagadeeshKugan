@@ -1,14 +1,17 @@
-<FrameLayout
-
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
     android:id="@+id/widget_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="200dp"
     android:layout_height="200dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    app:resizeMode="horizontal|vertical"
+    app:maxResizeHeight="300dp"
+    app:maxResizeWidth="500dp"
     tools:context="com.example.app1.widgetprovider"
-    tools:showIn="@layout/activity_main"
+    tools:showIn="@layout/widget_info"
     >
-    <com.synnapps.carouselview.CarouselView
+   <com.synnapps.carouselview.CarouselView
         android:id="@+id/carouselView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -18,58 +21,6 @@
         app:slideInterval="3000"
         app:strokeColor="#FF777777"
         app:strokeWidth="1dp"/>
+  
 
-    <!--<RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#1f303d"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
-        
-
-    <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-    android:id="@+id/carousel"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    app:showTopShadow="false"
-    //app:topShadowAlpha="0.6"
-    app:showBottomShadow="true"
-    app:bottomShadowAlpha="0.6"
-    app:showCaption="true"
-    app:showIndicator="false"
-    //app:showNavigationButtons="true"
-    app:imageScaleType="fitCenter"
-    app:carouselBackground="#333333"
-    app:imagePlaceholder="@drawable/img2"
-    app:itemLayout="@layout/item_carousel"
-    app:imageViewId="@id/img"
-    //app:previousButtonLayout="@layout/previous_button_layout"
-    //app:previousButtonId="@id/btn_previous"
-    //app:previousButtonMargin="4dp"
-    //app:nextButtonLayout="@layout/next_button_layout"
-    //app:nextButtonId="@id/btn_next"
-    //app:nextButtonMargin="4dp"
-    app:carouselType="BLOCK"
-    app:scaleOnScroll="false"
-    
-    app:autoWidthFixing="true"
-    app:autoPlay="true"
-    app:autoPlayDelay="3000" /> 
-        
-        
-
-    <com.denzcoskun.imageslider.ImageSlider
-        android:id="@+id/image_slider"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:iss_auto_cycle="true"
-        app:error_image="#ffaacc"
-        app:iss_period="1000"
-        app:iss_title_background="@android:color/holo_red_light"
-        app:iss_delay="0"/>    -->
-    <!--</RelativeLayout>-->
-
-
-
-</FrameLayout>
+</RelativeLayout>
