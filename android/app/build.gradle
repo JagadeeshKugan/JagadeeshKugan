@@ -70,6 +70,6 @@ flutter {
 }
 
 dependencies {
-    implementation 'com.synnapps:carouselview:0.1.4'
+    implementation 'com.synnapps:carouselview:0.1.6'
     
 }
