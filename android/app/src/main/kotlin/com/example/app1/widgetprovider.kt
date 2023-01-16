@@ -22,17 +22,20 @@ class AppWidgetProvider : HomeWidgetProvider() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.widget_layout)
 
-        val carouselView = findViewById(R.id.carouselView) as CarouselView;
-        carouselView.setPageCount(sampleImages.size);
-        carouselView.setImageListener(imageListener);
-    }
+      
     
+    
+    val imageList = ArrayList<SlideModel>() // Create image list
 
-    var imageListener: ImageListener = object : ImageListener {
-        override fun setImageForPosition(position: Int, imageView: ImageView) {
-            // You can use Glide or Picasso here
-            imageView.setImageResource(sampleImages[position])
-        }
+    // imageList.add(SlideModel("String Url" or R.drawable)
+    // imageList.add(SlideModel("String Url" or R.drawable, "title") You can add title
+    
+    imageList.add(SlideModel("https://bit.ly/2YoJ77H", "The animal population decreased by 58 percent in 42 years."))
+    imageList.add(SlideModel("https://bit.ly/2BteuF2", "Elephants and tigers may become extinct."))
+    imageList.add(SlideModel("https://bit.ly/3fLJf72", "And people do that."))
+    
+    val imageSlider = findViewById<ImageSlider>(R.id.image_slider)
+    imageSlider.setImageList(imageList)
     }
 }
 
@@ -68,5 +71,5 @@ class AppWidgetProvider : HomeWidgetProvider() {
             appWidgetManager.updateAppWidget(widgetId, views)
         }
     }*/
-}
+
 
