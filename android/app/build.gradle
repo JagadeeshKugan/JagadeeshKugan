@@ -35,7 +35,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    buildFeatures { 
+       viewBinding true
+   } 
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -53,7 +55,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        multiDexEnabled true
+        
     }
 
     buildTypes {
@@ -70,6 +72,6 @@ flutter {
 }
 
 dependencies {
-    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
+    //implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
     
 }

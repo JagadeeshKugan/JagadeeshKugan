@@ -5,38 +5,61 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.widget.RemoteViews
-import com.denzcoskun.imageslider.ImageSlider
-import com.denzcoskun.imageslider.constants.ActionTypes
-import com.denzcoskun.imageslider.constants.ScaleTypes
-import com.denzcoskun.imageslider.interfaces.ItemChangeListener
-import com.denzcoskun.imageslider.interfaces.ItemClickListener
-import com.denzcoskun.imageslider.interfaces.TouchListener
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.Toast
+import com.tutorialwing.viewflipper.databinding.ActivityMainBinding
+
+/*import com.denzcoskun.imageslider.interfaces.TouchListener
 import com.denzcoskun.imageslider.models.SlideModel
 import es.antonborri.home_widget.HomeWidgetBackgroundIntent
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
-import es.antonborri.home_widget.HomeWidgetProvider
+import es.antonborri.home_widget.HomeWidgetProvider*/
 
 class AppWidgetProvider : HomeWidgetProvider() {
-   
+    private lateinit var binding: ActivityMainBinding
+    private var imageList = intArrayOf(
+        R.drawable.img3,
+        R.drawable.img2,
+        R.drawable.img4,
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.widget_layout)
+       // setContentView(R.layout.widget_layout)
+        binding = ActivityMainBinding.inflate(layoutInflater) 
+        val view = binding.root 
+        setContentView(view) 
+        setupViewFlipper()
 
-      
     
     
-    val imageList = ArrayList<SlideModel>() // Create image list
-
-    // imageList.add(SlideModel("String Url" or R.drawable)
-    // imageList.add(SlideModel("String Url" or R.drawable, "title") You can add title
-    
-    imageList.add(SlideModel( R.drawable.img2, "The animal population decreased by 58 percent in 42 years."))
-    imageList.add(SlideModel( R.drawable.img3, "Elephants and tigers may become extinct."))
-    imageList.add(SlideModel( R.drawable.img4, "And people do that."))
-    
-    val imageSlider = findViewById<ImageSlider>(R.id.image_slider)
-    imageSlider.setImageList(imageList)
+   
     }
+
+    private fun setupViewFlipper() {
+        val viewFlipper = binding.viewFlipper
+        viewFlipper.setInAnimation(applicationContext, android.R.anim.slide_in_left)
+        viewFlipper.setOutAnimation(applicationContext, android.R.anim.slide_out_right)
+ 
+        // Add imageView for each image to viewFlipper.
+        for (image in imageList) {
+            val imageView = ImageView(this)
+            val layoutParams = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            layoutParams.setMargins(30, 30, 30, 30)
+            layoutParams.gravity = Gravity.CENTER
+            imageView.layoutParams = layoutParams
+            imageView.setImageResource(image)
+            viewFlipper.addView(imageView)
+        }
+
 }
 
 
