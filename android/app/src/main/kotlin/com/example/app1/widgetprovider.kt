@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
-import com.tutorialwing.viewflipper.databinding.ActivityMainBinding
+import com.example.app1.viewflipper.databinding.ActivityMainBinding
 
 /*import com.denzcoskun.imageslider.interfaces.TouchListener
 import com.denzcoskun.imageslider.models.SlideModel
