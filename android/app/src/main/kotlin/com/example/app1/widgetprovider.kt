@@ -17,14 +17,7 @@ import es.antonborri.home_widget.HomeWidgetLaunchIntent
 import es.antonborri.home_widget.HomeWidgetProvider
 
 class AppWidgetProvider : HomeWidgetProvider() {
-    var sampleImages = intArrayOf(
-       
-        R.drawable.img2,
-        R.drawable.img3,
-        R.drawable.img4,
-       
-    )
-  
+   
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.widget_layout)
@@ -37,9 +30,9 @@ class AppWidgetProvider : HomeWidgetProvider() {
     // imageList.add(SlideModel("String Url" or R.drawable)
     // imageList.add(SlideModel("String Url" or R.drawable, "title") You can add title
     
-    imageList.add(SlideModel("https://bit.ly/2YoJ77H", "The animal population decreased by 58 percent in 42 years."))
-    imageList.add(SlideModel("https://bit.ly/2BteuF2", "Elephants and tigers may become extinct."))
-    imageList.add(SlideModel("https://bit.ly/3fLJf72", "And people do that."))
+    imageList.add(SlideModel( R.drawable.img2, "The animal population decreased by 58 percent in 42 years."))
+    imageList.add(SlideModel( R.drawable.img3, "Elephants and tigers may become extinct."))
+    imageList.add(SlideModel( R.drawable.img4, "And people do that."))
     
     val imageSlider = findViewById<ImageSlider>(R.id.image_slider)
     imageSlider.setImageList(imageList)
