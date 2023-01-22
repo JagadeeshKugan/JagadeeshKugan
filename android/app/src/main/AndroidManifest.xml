@@ -41,7 +41,7 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <receiver android:name="AppWidgetProvider" android:exported="true"
+        <receiver android:name=".NewAppWidget" android:exported="true"
          >
            <intent-filter android:exported="true">
                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -49,8 +49,11 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
            </intent-filter>
-           <meta-data android:name="android.appwidget.provider"
-               android:resource="@xml/widget_info" />
+            
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/new_app_widget_info" />
+        
        </receiver>
 
        <receiver android:name="es.antonborri.home_widget.HomeWidgetBackgroundReceiver"
