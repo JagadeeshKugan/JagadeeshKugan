@@ -1,4 +1,4 @@
-package com.example.chris.fstest;
+package com.example.appwon1;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
