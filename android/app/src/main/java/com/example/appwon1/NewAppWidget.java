@@ -22,7 +22,7 @@ public class NewAppWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.new_app_widget);
 
-         int[] imageList = {R.drawable.guava, R.drawable.jackfruit, R.drawable.mix_fruit,
+         int[] imageList = {R.drawable.img2,  R.drawable.img4,
                  R.drawable.pomegranate, R.drawable.strawberry, R.drawable.zespri_kiwi};
          for (int image : imageList) {
              RemoteViews viewFlipperImage =new RemoteViews(context.getPackageName(), R.layout.view_notification_image);
